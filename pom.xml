@@ -10,10 +10,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>wyzmall-product</module>
         <module>wyzmall-order</module>
         <module>wyzmall-ware</module>
         <module>wyzmall-coupon</module>
         <module>wyzmall-member</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
     </modules>
 </project>
