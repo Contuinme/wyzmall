@@ -1,12 +1,19 @@
-server:
-  port: 7000
-
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://10.211.55.4:3306/wyzmall_sms?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true
-    username: root
-    password: Xxzs990416
-
-mybatis-plus:
-  mapper-locations: classpath:/mapper/**/*.xml
+#server:
+#  port: 7000
+#
+#
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://10.211.55.4:3306/wyzmall_sms?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true
+#    username: root
+#    password: Xxzs990416
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+#  application:
+#    name: wyzmall-coupon
+#
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/**/*.xml

@@ -3,7 +3,9 @@ package cn.wyz.wyzmall.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.alibaba.nacos.api.config.annotation.NacosValue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,24 @@ import cn.wyz.common.utils.R;
 public class SmsCouponController {
     @Autowired
     private SmsCouponService smsCouponService;
+
+    @Value("${coupon.user.name}")
+    private String name;
+
+    @Value("${coupon.user.age}")
+    private String age;
+
+    @RequestMapping("/configtest")
+    public R configTest() {
+        return R.ok().put("name", name).put("age", age);
+    }
+
+    @RequestMapping("/member/list")
+    public R memberCoupons() {
+        SmsCouponEntity couponEntity = new SmsCouponEntity();
+        couponEntity.setCouponName("满400-288");
+        return R.ok().put("coupons",Arrays.asList(couponEntity));
+    }
 
     /**
      * 列表
