@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.wyz.wyzmall.product.entity.SpuImagesEntity;
 import cn.wyz.wyzmall.product.service.SpuImagesService;
-import cn.wyz.wyzmall.common.utils.PageUtils;
-import cn.wyz.wyzmall.common.utils.R;
+import cn.wyz.common.utils.PageUtils;
+import cn.wyz.common.utils.R;
 
 
 

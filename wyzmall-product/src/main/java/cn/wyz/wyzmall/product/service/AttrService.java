@@ -1,7 +1,7 @@
 package cn.wyz.wyzmall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import cn.wyz.wyzmall.common.utils.PageUtils;
+import cn.wyz.common.utils.PageUtils;
 import cn.wyz.wyzmall.product.entity.AttrEntity;
 
 import java.util.Map;
