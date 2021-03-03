@@ -3,7 +3,11 @@ package cn.wyz.wyzmall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import cn.wyz.common.valid.AddGroup;
+import cn.wyz.common.valid.UpdateGroup;
+import cn.wyz.common.valid.UpdateStatusGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +18,6 @@ import cn.wyz.wyzmall.product.entity.BrandEntity;
 import cn.wyz.wyzmall.product.service.BrandService;
 import cn.wyz.common.utils.PageUtils;
 import cn.wyz.common.utils.R;
-
-
 
 /**
  * 品牌
@@ -55,8 +57,17 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand/*, BindingResult bindingResult*/){
+//        if(bindingResult.hasErrors()) {
+//            Map<String, String> map = new HashMap<>();
+//            bindingResult.getFieldErrors().forEach(item -> {
+//                map.put(item.getField(), item.getDefaultMessage());
+//            });
+//            return R.error(400, "数据不合法").put("data", map);
+//        } else {
+//
+//        }
+        brandService.save(brand);
 
         return R.ok();
     }
@@ -65,8 +76,18 @@ public class BrandController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Validated({UpdateGroup.class}) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
+
+        return R.ok();
+    }
+
+    /**
+     * 修改显示状态信息
+     */
+    @RequestMapping("/update/status")
+    public R updateStatus(@Validated({UpdateStatusGroup.class}) @RequestBody BrandEntity brand){
+        brandService.updateById(brand);
 
         return R.ok();
     }

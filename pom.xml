@@ -14,6 +14,10 @@
         <module>wyzmall-ware</module>
         <module>wyzmall-coupon</module>
         <module>wyzmall-member</module>
+        <module>wyzmall-gateway</module>
+        <module>wyzmall-common</module>
+        <module>wyzmall-product</module>
+        <module>wyzmall-third-party</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
     </modules>
