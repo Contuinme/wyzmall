@@ -1,5 +1,7 @@
 package cn.wyz.wyzmall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -22,7 +24,7 @@ public class AttrGroupEntity implements Serializable {
 	/**
 	 * 分组id
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long attrGroupId;
 	/**
 	 * 组名
@@ -45,4 +47,6 @@ public class AttrGroupEntity implements Serializable {
 	 */
 	private Long catelogId;
 
+	@TableField(exist = false)
+	private Long[] catelogPath;
 }
