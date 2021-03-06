@@ -8,6 +8,7 @@
 
 package io.renren.modules.job.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -35,7 +36,7 @@ public class ScheduleJobEntity implements Serializable {
     /**
      * 任务id
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long jobId;
 
     /**

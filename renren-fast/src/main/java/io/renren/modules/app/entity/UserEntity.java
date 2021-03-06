@@ -8,6 +8,7 @@
 
 package io.renren.modules.app.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -29,7 +30,7 @@ public class UserEntity implements Serializable {
     /**
      * 用户ID
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long userId;
     /**
      * 用户名

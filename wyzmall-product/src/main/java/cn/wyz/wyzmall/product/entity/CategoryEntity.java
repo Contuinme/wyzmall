@@ -23,7 +23,7 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 分类id
 	 */
-	@TableId(value = "cat_id", type = IdType.AUTO)
+	@TableId(type = IdType.AUTO)
 	private Long catId;
 	/**
 	 * 分类名称

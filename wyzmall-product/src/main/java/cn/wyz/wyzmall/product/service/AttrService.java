@@ -1,5 +1,7 @@
 package cn.wyz.wyzmall.product.service;
 
+import cn.wyz.wyzmall.product.vo.AttrRespVo;
+import cn.wyz.wyzmall.product.vo.AttrVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import cn.wyz.common.utils.PageUtils;
 import cn.wyz.wyzmall.product.entity.AttrEntity;
@@ -16,5 +18,13 @@ import java.util.Map;
 public interface AttrService extends IService<AttrEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveAttr(AttrVo attr);
+
+    PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId);
+
+    AttrRespVo getAttrInfo(Long attrId);
+
+    void updateAttr(AttrVo attr);
 }
 

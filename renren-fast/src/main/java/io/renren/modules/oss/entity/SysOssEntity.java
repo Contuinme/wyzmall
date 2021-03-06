@@ -8,6 +8,7 @@
 
 package io.renren.modules.oss.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -26,7 +27,7 @@ import java.util.Date;
 public class SysOssEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
     //URL地址
     private String url;
