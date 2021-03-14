@@ -163,7 +163,6 @@ export default {
     submitAddRealtion() {
       this.innerVisible = false;
       //准备数据
-      console.log("准备新增的数据", this.innerdataListSelections);
       if (this.innerdataListSelections.length > 0) {
         let postData = [];
         this.innerdataListSelections.forEach(item => {

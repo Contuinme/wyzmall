@@ -1,5 +1,6 @@
 package cn.wyz.wyzmall.coupon.service;
 
+import cn.wyz.common.to.SkuReductionTo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import cn.wyz.common.utils.PageUtils;
 import cn.wyz.wyzmall.coupon.entity.SmsSkuFullReductionEntity;
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface SmsSkuFullReductionService extends IService<SmsSkuFullReductionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveSkuReduction(SkuReductionTo skuReductionTo);
 }
 

@@ -94,7 +94,6 @@ export default {
       });
     },
     attrUpdateShow(row) {
-      console.log(row);
       this.$router.push({
         path: "/product-attrupdate",
         query: { spuId: row.id, catalogId: row.catalogId }
@@ -143,7 +142,6 @@ export default {
   },
   mounted() {
     this.dataSub = PubSub.subscribe("dataForm", (msg, val) => {
-      console.log("~~~~~", val);
       this.dataForm = val;
       this.getDataList();
     });

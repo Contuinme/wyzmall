@@ -25,7 +25,7 @@ import cn.wyz.common.utils.R;
  * @date 2021-02-23 08:47:00
  */
 @RestController
-@RequestMapping("member/umsmemberlevel")
+@RequestMapping("member/memberlevel")
 public class UmsMemberLevelController {
     @Autowired
     private UmsMemberLevelService umsMemberLevelService;

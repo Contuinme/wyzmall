@@ -27,6 +27,7 @@ public class WyzmallExceptionControllerAdvice {
 
     @ExceptionHandler(Throwable.class)
     public R handleException(Throwable throwable) {
+        System.out.println(throwable);
         return R.error(BizCodeException.UNKNOW_EXCEPTION.getCode(), BizCodeException.UNKNOW_EXCEPTION.getMsg());
     }
 }

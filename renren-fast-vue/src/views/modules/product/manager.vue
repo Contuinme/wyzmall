@@ -127,11 +127,9 @@ export default {
   methods: {
     getSkuDetails(row, expand) {
       //sku详情查询
-      console.log("展开某行...", row, expand);
     },
     //处理更多指令
     handleCommand(row, command) {
-      console.log("~~~~~", row, command);
       if ("stockSettings" == command) {
         this.$router.push({ path: "/ware-sku", query: { skuId: row.skuId } });
       }

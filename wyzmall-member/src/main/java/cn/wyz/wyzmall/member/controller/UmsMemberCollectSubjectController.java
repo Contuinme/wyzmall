@@ -25,7 +25,7 @@ import cn.wyz.common.utils.R;
  * @date 2021-02-23 08:46:59
  */
 @RestController
-@RequestMapping("member/umsmembercollectsubject")
+@RequestMapping("member/membercollectsubject")
 public class UmsMemberCollectSubjectController {
     @Autowired
     private UmsMemberCollectSubjectService umsMemberCollectSubjectService;

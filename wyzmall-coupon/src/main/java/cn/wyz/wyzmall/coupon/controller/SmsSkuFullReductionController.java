@@ -3,12 +3,9 @@ package cn.wyz.wyzmall.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import cn.wyz.common.to.SkuReductionTo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.wyz.wyzmall.coupon.entity.SmsSkuFullReductionEntity;
 import cn.wyz.wyzmall.coupon.service.SmsSkuFullReductionService;
@@ -29,6 +26,12 @@ import cn.wyz.common.utils.R;
 public class SmsSkuFullReductionController {
     @Autowired
     private SmsSkuFullReductionService smsSkuFullReductionService;
+
+    @PostMapping("saveinfo")
+    public R saveInfo(@RequestBody SkuReductionTo skuReductionTo) {
+        smsSkuFullReductionService.saveSkuReduction(skuReductionTo);
+        return R.ok();
+    }
 
     /**
      * 列表
