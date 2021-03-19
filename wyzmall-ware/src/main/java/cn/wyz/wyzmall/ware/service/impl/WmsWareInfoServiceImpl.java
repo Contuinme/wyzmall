@@ -11,6 +11,7 @@ import cn.wyz.common.utils.Query;
 import cn.wyz.wyzmall.ware.dao.WmsWareInfoDao;
 import cn.wyz.wyzmall.ware.entity.WmsWareInfoEntity;
 import cn.wyz.wyzmall.ware.service.WmsWareInfoService;
+import org.springframework.util.StringUtils;
 
 
 @Service("wmsWareInfoService")
@@ -18,9 +19,17 @@ public class WmsWareInfoServiceImpl extends ServiceImpl<WmsWareInfoDao, WmsWareI
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        QueryWrapper<WmsWareInfoEntity> wmsWareInfoEntityQueryWrapper = new QueryWrapper<>();
+        String key = (String) params.get("key");
+        if(StringUtils.hasLength(key)) {
+            wmsWareInfoEntityQueryWrapper.eq("id", key)
+                    .or().like("name", key)
+                    .or().like("address", key)
+                    .or().like("areacode", key);
+        }
         IPage<WmsWareInfoEntity> page = this.page(
                 new Query<WmsWareInfoEntity>().getPage(params),
-                new QueryWrapper<WmsWareInfoEntity>()
+                wmsWareInfoEntityQueryWrapper
         );
 
         return new PageUtils(page);

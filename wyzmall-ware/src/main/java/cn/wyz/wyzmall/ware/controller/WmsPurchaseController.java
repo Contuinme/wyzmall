@@ -1,14 +1,14 @@
 package cn.wyz.wyzmall.ware.controller;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+import cn.wyz.wyzmall.ware.vo.MergeVo;
+import cn.wyz.wyzmall.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.wyz.wyzmall.ware.entity.WmsPurchaseEntity;
 import cn.wyz.wyzmall.ware.service.WmsPurchaseService;
@@ -27,8 +27,35 @@ import cn.wyz.common.utils.R;
 @RestController
 @RequestMapping("ware/wmspurchase")
 public class WmsPurchaseController {
+
     @Autowired
     private WmsPurchaseService wmsPurchaseService;
+
+    @PostMapping("/done")
+    public R finish(@RequestBody PurchaseDoneVo vo) {
+        wmsPurchaseService.done(vo);
+        return R.ok();
+    }
+
+    @PostMapping("/received")
+    public R received(@RequestBody List<Long> ids) {
+
+        wmsPurchaseService.received(ids);
+        return R.ok();
+    }
+
+    @PostMapping("/merge")
+    public R merge(@RequestBody MergeVo mergeVo) {
+        wmsPurchaseService.mergePurchase(mergeVo);
+        return R.ok();
+    }
+
+    @RequestMapping("/unreceive/list")
+    public R unreceiveList(@RequestParam Map<String, Object> params){
+        PageUtils page = wmsPurchaseService.queryPageUnreceivePurchase(params);
+
+        return R.ok().put("page", page);
+    }
 
     /**
      * 列表
@@ -56,6 +83,8 @@ public class WmsPurchaseController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody WmsPurchaseEntity wmsPurchase){
+        wmsPurchase.setCreateTime(new Date());
+        wmsPurchase.setUpdateTime(new Date());
 		wmsPurchaseService.save(wmsPurchase);
 
         return R.ok();

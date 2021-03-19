@@ -174,4 +174,31 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         baseMapper.insert(spuInfoEntity);
     }
 
+    @Override
+    public PageUtils queryPageWithCondition(Map<String, Object> params) {
+        QueryWrapper<SpuInfoEntity> spuInfoEntityQueryWrapper = new QueryWrapper<>();
+        String key = (String) params.get("key");
+        if(StringUtils.hasLength(key)) {
+            spuInfoEntityQueryWrapper.and(wrapper -> wrapper.and(w -> w.eq("id", key).or().like("spu_name", key)));
+        }
+        String status = (String) params.get("status");
+        if(StringUtils.hasLength(status)) {
+            spuInfoEntityQueryWrapper.eq("publish_status", status);
+        }
+        String brandId = (String) params.get("brandId");
+        if(StringUtils.hasLength(brandId) && !"0".equalsIgnoreCase(brandId)) {
+            spuInfoEntityQueryWrapper.eq("brand_id", brandId);
+        }
+        String catalogId = (String) params.get("catalogId");
+        if(StringUtils.hasLength(catalogId) && !"0".equalsIgnoreCase(catalogId)) {
+            spuInfoEntityQueryWrapper.eq("catalog_id", catalogId);
+        }
+        IPage<SpuInfoEntity> page = this.page(
+                new Query<SpuInfoEntity>().getPage(params),
+                spuInfoEntityQueryWrapper
+        );
+
+        return new PageUtils(page);
+    }
+
 }
