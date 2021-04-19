@@ -24,11 +24,11 @@ spring:
             - RewritePath=/api/thirdparty/(?<segment>.*), /$\{segment}
 
         - id: ware_rote
-            uri: lb://wyzmall-ware
-            predicates:
-              - Path=/api/ware/**
-            filters:
-              - RewritePath=/api/(?<segment>.*), /$\{segment}
+          uri: lb://wyzmall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
 
         - id: admin_route
           uri:  lb://renren-fast
