@@ -8,6 +8,8 @@
 
 package cn.wyz.common.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
@@ -57,6 +59,7 @@ public class R extends HashMap<String, Object> {
 		return new R();
 	}
 
+	@Override
 	public R put(String key, Object value) {
 		super.put(key, value);
 		return this;
@@ -64,5 +67,16 @@ public class R extends HashMap<String, Object> {
 
 	public Integer getCode() {
 		return (Integer) get("code");
+	}
+
+	public R setData(Object data) {
+		put("data", data);
+		return this;
+	}
+
+	public <T> T getData(TypeReference<T> typeReference) {
+		Object data = get("data");
+		String json = JSON.toJSONString(data);
+		return JSON.parseObject(json, typeReference);
 	}
 }

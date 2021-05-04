@@ -3,13 +3,10 @@ package cn.wyz.wyzmall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import cn.wyz.wyzmall.product.feign.WareFeignService;
 import cn.wyz.wyzmall.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.wyz.wyzmall.product.entity.SpuInfoEntity;
 import cn.wyz.wyzmall.product.service.SpuInfoService;
@@ -30,6 +27,13 @@ import cn.wyz.common.utils.R;
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
+
+    @PostMapping("/{spuId}/up")
+    public R spuUp(@PathVariable Long spuId) {
+        spuInfoService.spuUp(spuId);
+
+        return R.ok();
+    }
 
     /**
      * 列表

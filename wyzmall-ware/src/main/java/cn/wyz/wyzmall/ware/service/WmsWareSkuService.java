@@ -1,9 +1,11 @@
 package cn.wyz.wyzmall.ware.service;
 
+import cn.wyz.common.vo.SkuHasStockVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import cn.wyz.common.utils.PageUtils;
 import cn.wyz.wyzmall.ware.entity.WmsWareSkuEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,5 +20,7 @@ public interface WmsWareSkuService extends IService<WmsWareSkuEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     void addStock(Long skuId, Long wareId, Integer skuNum);
+
+    List<SkuHasStockVo> getSkusHasStock(List<Long> skuIds);
 }
 

@@ -20,5 +20,6 @@
         <module>wyzmall-third-party</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
+        <module>wyzmall-search</module>
     </modules>
 </project>

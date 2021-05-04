@@ -1,20 +1,24 @@
 package cn.wyz.wyzmall.product.service.impl;
 
+import cn.wyz.common.constant.ProductConstant;
 import cn.wyz.common.to.SkuReductionTo;
 import cn.wyz.common.to.SpuBoundTo;
+import cn.wyz.common.to.es.SkuEsModel;
 import cn.wyz.common.utils.R;
+import cn.wyz.common.vo.SkuHasStockVo;
 import cn.wyz.wyzmall.product.entity.*;
 import cn.wyz.wyzmall.product.feign.CouponFeignService;
+import cn.wyz.wyzmall.product.feign.SearchFeignService;
+import cn.wyz.wyzmall.product.feign.WareFeignService;
 import cn.wyz.wyzmall.product.service.*;
 import cn.wyz.wyzmall.product.vo.*;
+import com.alibaba.fastjson.TypeReference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -55,6 +59,18 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     private CouponFeignService couponFeignService;
+
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private WareFeignService wareFeignService;
+
+    @Autowired
+    private SearchFeignService searchFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -199,6 +215,63 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void spuUp(Long spuId) {
+        List<SkuInfoEntity> skuInfoEntityList = skuInfoService.getSkusBySpuId(spuId);
+        List<Long> skuIds = skuInfoEntityList.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
+
+        List<ProductAttrValueEntity> baseAttrs = productAttrValueService.baseAttrListForSpu(spuId);
+        List<Long> baseAttrIds = baseAttrs.stream().map(ProductAttrValueEntity::getAttrId).collect(Collectors.toList());
+        List<Long> searchAttrIds = attrService.selectSearchAttrIds(baseAttrIds);
+        HashSet<Long> searchAttrIdsSet = new HashSet<>(searchAttrIds);
+
+        List<SkuEsModel.Attrs> attrsList = baseAttrs.stream().filter(baseAttrId -> searchAttrIdsSet.contains(baseAttrId)).map(item -> {
+            SkuEsModel.Attrs attrs = new SkuEsModel.Attrs();
+            BeanUtils.copyProperties(item, attrs);
+            return attrs;
+        }).collect(Collectors.toList());
+
+        Map<Long, Boolean> skuHasStockVoMap = null;
+        try {
+            R skusHasStockList = wareFeignService.getSkusHasStock(skuIds);
+            skuHasStockVoMap = skusHasStockList.getData(new TypeReference<List<SkuHasStockVo>>(){}).stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock()));
+        } catch (Exception e) {
+            log.error("远程调用库存服务异常，错误原因: {}", e);
+        }
+
+        Map<Long, Boolean> finalSkuHasStockVoMap = skuHasStockVoMap;
+        List<SkuEsModel> skuEsModelList = skuInfoEntityList.stream().map(skuInfoEntity -> {
+            SkuEsModel skuEsModel = new SkuEsModel();
+            BeanUtils.copyProperties(skuInfoEntity, skuEsModel);
+            skuEsModel.setSkuPrice(skuInfoEntity.getPrice());
+            skuEsModel.setSkuImg(skuInfoEntity.getSkuDefaultImg());
+            if(finalSkuHasStockVoMap == null) {
+                skuEsModel.setHasStock(true);
+            } else {
+                skuEsModel.setHasStock(finalSkuHasStockVoMap.get(skuInfoEntity.getSkuId()));
+            }
+            skuEsModel.setHotScore(0L);
+
+            BrandEntity brandEntity = brandService.getById(skuEsModel.getBrandId());
+            skuEsModel.setBrandName(brandEntity.getName());
+            skuEsModel.setBrandImg(brandEntity.getLogo());
+
+            CategoryEntity categoryEntity = categoryService.getById(skuEsModel.getCatalogId());
+            skuEsModel.setCatalogName(categoryEntity.getName());
+
+            skuEsModel.setAttrs(attrsList);
+
+            return skuEsModel;
+        }).collect(Collectors.toList());
+
+        R r = searchFeignService.productStatusUp(skuEsModelList);
+        if(r.getCode() == 0) {
+            baseMapper.updateSpuStatus(spuId, ProductConstant.StatusEnum.NEW_SPU.getCode());
+        } else {
+            // TODO 重复调用 接口幂等性 重试机制？
+        }
     }
 
 }
