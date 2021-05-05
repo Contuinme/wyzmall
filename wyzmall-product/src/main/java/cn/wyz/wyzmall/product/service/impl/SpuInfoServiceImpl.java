@@ -268,7 +268,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         R r = searchFeignService.productStatusUp(skuEsModelList);
         if(r.getCode() == 0) {
-            baseMapper.updateSpuStatus(spuId, ProductConstant.StatusEnum.NEW_SPU.getCode());
+            baseMapper.updateSpuStatus(spuId, ProductConstant.StatusEnum.SPU_UP.getCode());
         } else {
             // TODO 重复调用 接口幂等性 重试机制？
         }

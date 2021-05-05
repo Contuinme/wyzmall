@@ -23,14 +23,14 @@ public class ElasticSaveController {
 
     @PostMapping("/product")
     public R productStatusUp(@RequestBody List<SkuEsModel> skuEsModelList) {
-        Boolean failure = false;
+        Boolean success = false;
         try{
-            failure = productSaveService.productStatusUp(skuEsModelList);
+            success = productSaveService.productStatusUp(skuEsModelList);
         }catch (Exception e) {
             log.error("ElasticSaveController商品上架错误: {}", e);
         }
 
-        if(failure) {
+        if(!success) {
             return R.error(BizCodeException.PRODUCT_UP_EXCEPTION.getCode(),BizCodeException.PRODUCT_UP_EXCEPTION.getMsg());
         }
 
